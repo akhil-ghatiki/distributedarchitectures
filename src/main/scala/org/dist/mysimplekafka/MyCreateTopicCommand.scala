@@ -1,6 +1,6 @@
 package org.dist.mysimplekafka
 
-case class PartitionReplicas(partitionId:Int, brokerIds:List[Int])
+case class PartitionReplicas(partitionId: Int, brokerIds: List[Int])
 
 class MyCreateTopicCommand(zookeeperClient: MyZookeeperClient) {
 
@@ -9,15 +9,13 @@ class MyCreateTopicCommand(zookeeperClient: MyZookeeperClient) {
     val brokerIds = zookeeperClient.getAllBrokerIds()
     val partitionReplicas: Set[PartitionReplicas] = assignReplicasToBrokers(brokerIds.toList, partitionCount, replicationFactor)
 
-
-    zookeeperClient.setPartitionReplicasForTopic(topicName,partitionReplicas)
-
+    zookeeperClient.setPartitionReplicasForTopic(topicName, partitionReplicas)
   }
 
   def assignReplicasToBrokers(brokerList: List[Int], partitionCount: Int, replicationFactor: Int): Set[PartitionReplicas] = {
-    val partitionReplicaOne = new PartitionReplicas(1,List(1))
-    val partitionReplicaTwo = new PartitionReplicas(2,List(2))
-    Set(partitionReplicaOne,partitionReplicaTwo)
+    val partitionReplicaOne = PartitionReplicas(1, List(1))
+    val partitionReplicaTwo = PartitionReplicas(2, List(2))
+    Set(partitionReplicaOne, partitionReplicaTwo)
   }
 
 }
