@@ -2,9 +2,7 @@ package org.dist.simplekafka
 
 import java.util.Random
 
-import org.dist.queue.utils.AdminUtils.rand
-
-import scala.collection.{Map, Seq, mutable}
+import scala.collection.mutable
 
 case class PartitionReplicas(partitionId:Int, brokerIds:List[Int])
 
@@ -18,7 +16,6 @@ class CreateTopicCommand(zookeeperClient:ZookeeperClient, partitionAssigner:Repl
     val partitionReplicas: Set[PartitionReplicas] = assignReplicasToBrokers(brokerIds.toList, noOfPartitions, replicationFactor)
     // register topic with partition assignments to zookeeper
     zookeeperClient.setPartitionReplicasForTopic(topicName, partitionReplicas)
-
   }
 
   //on new topic creation
@@ -72,4 +69,5 @@ class CreateTopicCommand(zookeeperClient:ZookeeperClient, partitionAssigner:Repl
     (firstReplicaIndex + shift) % nBrokers
   }
 }
+
 
